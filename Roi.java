@@ -1,55 +1,45 @@
-import java.util.*; 
 
 public class Roi extends Piece  {
 
     public Roi(String couleur, Case position) {
-        super(couleur, position);
+        super(couleur, position,"Roi");
     }
 
-    public void Deplacement(Echiquier echiquier){
-        boolean test = false;
-        while (test==false) {
-            //Initialisation
-            Scanner input = new Scanner(System.in); 
-            System.out.println("Ou voulez vous le déplacer ? -- format ligne colonne (ex b3)");
-            //Position voulu
-            char ligne = input.next().charAt(0);
-            int colonne = input.nextInt();
-            input.close();
+    public Roi(){}
 
-            //Position initial  de la pièce
+    //Unicode
+    public String Afficher() {
+        if (this.getCouleur().equals(new String("Blanc"))) {
+            return "\u2654" ;
+        }
+
+        else return "\u265a";
+    }
+
+    //Vérification d'un déplacement à une position colonne/ligne dans un échiquier
+    public boolean Deplacement(Echiquier echiquier,int colonne,char ligne){
+
+            //Position initial  de la pièce qui appelle la méthode
             int a=(int)this.getPosition().getLigne();
             int b = this.getPosition().getColonne();
 
-            //Vérification du déplacement
-            if (this.Verification(ligne,colonne)){ 
+            //Vérification du déplacement retourne vrai si l'une des situations est validée
+            if (this.Verification(ligne,colonne,echiquier)){ 
+                System.out.println("ok");
+                if ((colonne==b+1) && ((int)ligne==a+1)) {return true;}
+                else if ((colonne==b+1) && ((int)ligne==a-1)) {return true;}
+                else if ((colonne==b+1) && ((int)ligne==a)) {return true;}
 
-                if (((colonne==b+1) && ((int)ligne==a+1)) {
-                    this.Capture(echiquier,colonne,ligne);test=true;
-                }
-                else if ((colonne==b+1) && ((int)ligne==a-1)) {
-                    this.Capture(echiquier,colonne,ligne);test=true;
-                }
-                else if ((colonne==b-1) && ((int)ligne==a+1)) {
-                    this.Capture(echiquier,colonne,ligne);test=true;
-                }
-                else if ((colonne==b-1) && ((int)ligne==a-1)) {
-                    this.Capture(echiquier,colonne,ligne);test=true;
-                }
-                else if ((colonne==b+1) && ((int)ligne==a)) 
-                {this.Capture(echiquier,colonne,ligne);test=true;
-                }
-                else if ((colonne==b-1) && ((int)ligne==a)) {
-                    this.Capture(echiquier,colonne,ligne);test=true;
-                }
-                else if ((colonne==b) && ((int)ligne==a+1)) {
-                    this.Capture(echiquier,colonne,ligne);test=true;
-                }
-                else if ((colonne==b) && ((int)ligne==a-1))) {
-                    this.Capture(echiquier,colonne,ligne);test=true;
-                }
+                else if ((colonne==b-1) && ((int)ligne==a+1)) {return true;}
+                else if ((colonne==b-1) && ((int)ligne==a-1)) {return true;}
+                else if ((colonne==b-1) && ((int)ligne==a)) {return true;}
+
+                else if ((colonne==b) && ((int)ligne==a+1)) {return true;}
+                else if ((colonne==b) && ((int)ligne==a-1)) {return true;}
+
             }
 
+            return false;
+
         }
-    }
 }

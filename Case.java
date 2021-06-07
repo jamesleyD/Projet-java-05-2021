@@ -8,17 +8,19 @@ public class Case {
         this.colonne = colonne;
         this.piece=piece;
     }
+    
+    public Case() {}
 
     public Case(char ligne, int colonne) {
         this.ligne = ligne;
         this.colonne = colonne;
         this.piece=null;
     }
-
+    
     
 
     public Piece getPiece() {
-        return piece;
+        return this.piece;
     }
 
     public void setPiece(Piece piece) {

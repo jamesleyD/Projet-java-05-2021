@@ -1,10 +1,8 @@
 public class Joueur {
     private String couleur;
-    private String nom;
 
-    public Joueur(String couleur, String nom) {
+    public Joueur(String couleur) {
         this.couleur = couleur;
-        this.nom = nom;
     }
 
     public String getCouleur() {
@@ -15,13 +13,7 @@ public class Joueur {
         this.couleur = couleur;
     }
 
-    public String getNom() {
-        return this.nom;
-    }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
     
 }

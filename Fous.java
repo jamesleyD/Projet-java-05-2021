@@ -1,82 +1,84 @@
-import java.util.*; 
+
 
 public class Fous extends Piece {
 
     public Fous(String couleur, Case position) {
-        super(couleur, position);
+        super(couleur, position,"Fou");
     }
-    
-    public boolean obstacle(int nb,char ligne,int colonne,Echiquier echiquier) {
+
+    public Fous(){}
+
+    public String Afficher() {
+        if (this.getCouleur().equals(new String("Blanc"))) {
+            return "\u2657" ;
+        }
+
+        else return "\u265D";
+    }
+
+
+    //Méthode de détection d'obstacle
+    private boolean obstacle(char ligne,int colonne,Echiquier echiquier) {
         //Position initial de la pièce
         char thligne = this.getPosition().getLigne();
         int thcolonne = this.getPosition().getColonne();
-
+        int n= ((thcolonne*8)-1)-(((int)(thligne))-97);
+        int i =0;
         //Vérification d'obstacle selon toute les situations possible
         //Retourne faux si il trouve un obstacle entre la position voulu et la pièce
+
         if ( ((int)(thligne)<(int)(ligne)) && ( thcolonne<colonne ) ) {
-            int n= nb;
+            System.out.println("Ok1");
             while (((Math.abs(thcolonne-colonne))-1)!=i) {
                 i+=1;
-                if (echiquier.getCasse()[n+(8*i)+i]!=null) {
-                    return false; break; 
+                if (echiquier.getCasse()[n+(8*i)-i]!=null) {
+                    return false;  
                 }
             }
             return true;
         }
 
         else if ( ((int)(thligne)>(int)(ligne)) && ( thcolonne>colonne ) ) {
-            int n= nb;
             while (((Math.abs(thcolonne-colonne))-1)!=i) {
                 i+=1;
-                if (echiquier.getCasse()[n-(8*i)-i]!=null) {
-                    return false; break; 
+                if (echiquier.getCasse()[n-(8*i)+i]!=null) {
+                    return false; 
                 }
             }
             return true;
         }
 
         else if ( ((int)(thligne)<(int)(ligne)) && ( thcolonne>colonne ) ) {
-            int n= nb;
             while (((Math.abs(thcolonne-colonne))-1)!=i) {
                 i+=1;
-                if (echiquier.getCasse()[n-(8*i)+i]!=null) {
-                    return false; break; 
+                if (echiquier.getCasse()[n-(8*i)-i]!=null) {
+                    return false; 
                 }
             }
             return true;
         }
         else  {
-            int n= nb;
             while (((Math.abs(thcolonne-colonne))-1)!=i) {
                 i+=1;
-                if (echiquier.getCasse()[n+(8*i)-i]!=null) {
-                    return false; break; 
+                if (echiquier.getCasse()[n+(8*i)+i]!=null) {
+                    return false; 
                 }
             }
             return true;
         }
     }    
+ 
 
 
-    public void Deplacement(Echiquier echiquier) {
-        boolean test = false;
-        while (test==false) {
+    //Vérification d'un déplacement à une position colonne/ligne dans un échiquier
+    public boolean Deplacement(Echiquier echiquier,int colonne,char ligne) {
 
-            //Initialisation
-            Scanner input = new Scanner(System.in); 
-            System.out.println("Ou voulez vous le déplacer ? -- format ligne colonne (ex b3)");
-            //Position voulu
-            char ligne = input.next().charAt(0);
-            int colonne = input.nextInt();
-            input.close();
 
             //Position actuelle de la pièce  thligne et  thcolonne
             char thligne = this.getPosition().getLigne();
             int thcolonne = this.getPosition().getColonne();
-            int nb=((colonne)*8)-(8-(((int)ligne)+97)); //indice de la  position désirée dans l'échiquie  
 
-            if (this.Verification(ligne,colonne)){
-                int i=1;
+            if (this.Verification(ligne,colonne,echiquier)){
 
                 //Calcul des positions autoriser enn fonction de la ligne (si la ligne est valide la colonne l'est forcément sinon erreur)
                 char s1=(char)(((int)(thligne))+(Math.abs((thcolonne)-colonne)));
@@ -87,19 +89,17 @@ public class Fous extends Piece {
                     //Situation ou le déplacement n'est pas que de une case (si oui on vérifie les obstacles)
                     if (( (int)(ligne)!=((int)(thligne))+1 ) && ( (int)(ligne)!=((int)(thligne))-1 )) {
                         //Obstacle
-                        if (this.obstacle(nb, ligne, colonne, echiquier)) {
-                            this.Capture(echiquier,colonne,ligne);
-                            test=true;
+                        if (this.obstacle(ligne, colonne, echiquier)) {
+                            return true;
                         }
                     }
                     //Si le déplacement est de 1 case alors on valide le déplacement sans vérifier les obstacles
-                    else {this.Capture(echiquier,colonne,ligne); test=true;}
+                    else {return true;}
 
                 }
-            }
-            if (test==false) {System.out.println("déplacement imposssible !");}
-        }
+            }return false;
     }
+
 }
 
 
